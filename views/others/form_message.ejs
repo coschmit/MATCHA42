@@ -1,0 +1,17 @@
+<div class="container">
+
+        <% if (locals.flash && locals.flash.error){ %>
+        <div class="alert alert-danger" role="alert">
+            <%= flash.error %>
+          </div>
+          <% } %>
+    
+          <form action="/" method="POST">
+              <div class="form-group">
+                  <label for="message">Message:</label>
+                  <textarea name="message" class="form-control" rows="5" id="message"></textarea>
+              </div>
+              
+              <button type="submit" class="btn btn-outline-primary">Submit</button>
+            </form>
+        </div>

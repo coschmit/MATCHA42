@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ../others/head.ejs %>
+</head>
+
+<body >
+
+
+    <% include ../others/navbar.ejs %>
+        
+        <div class="container-fluid mt-4">
+    
+            <div class='col cardimg'>
+                <div class="row">
+          
+              <% var i = 0;
+              if (match != 'none') {
+                   while (match[i]) { %>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="card mb-4 <% if(online == 1){%>bg-success<%}%> "   style="width: 18rem;">
+                  <img src="<%- match[i].img1 %>" class="card-img-top" alt="...">
+                  <div class="card-body">
+                      <p class="card-text float-right "><%-match[i].age%>yo</p>
+          
+                    <h5 class="card-title"><%- match[i].name%></h5>
+                    <p class="card-text h-25 overflow-auto "><%- match[i].bio%></p>
+          
+                    <p class="card-text"><%-match[i].location%></p>
+                    <button type="button" style="z-index: 10" onclick="location.href='<%-'/chat/'+ match[i].id %> ' "  class="btn btn-primary btn-lg btn-block">Chat</button>
+
+                  </div>
+                </div>
+                </div>
+          
+          
+                <%  i++ } } else { %>
+                    <div class="white size"><h2 id="nomatch"> No match yet ! <a href="/find" style="color:black;">Find your peer NOW !</a></h2></div>
+                    <% } %>
+            </div>
+            
+          </div>
+            </div>
+
+
+    <% include ../others/footer.ejs %>
+    <% include ../others/notif.ejs %>
+
+</body>
+
+</html>

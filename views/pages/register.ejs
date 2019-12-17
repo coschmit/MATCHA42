@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ../others/head.ejs %>
+    <link rel="stylesheet" href="css/signin.css">
+</head>
+
+<body id="form-conn">
+
+        <div id="bg-register"></div>
+        <% if (typeof error !== 'undefined' && error && error !== 'none') { 
+            %> <div class="alert alert-danger w-50 ml-auto mr-auto alert-dismissible fade show" role="alert">
+  <%-error%>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+        <% } %>
+        <% if (typeof success !== 'undefined' && success && success !== 'none') { 
+            %> <div class="alert alert-success w-50 ml-auto mr-auto alert-dismissible fade show" role="alert">
+  <%-success%>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+        <% } %>
+        <section class="container-fluid text-center">
+        <form class="form-signin" action="register" method="post">
+            <div class="title">
+                    <a href="/">Register</a>
+            </div>
+            <input type="username" class='form-control' name=username placeholder="Username" required autofocus>
+
+            <input type="name" class='form-control border-0' name=name placeholder="Your Name" required >
+
+            <input type="email" class="form-control border-0" name=email placeholder="Email address" required>
+
+            <input type="password" class="form-control" name="password" placeholder="Password" required>
+           
+            <button class="btn btn-lg btn-light btn-block" type="submit">Register</button>
+            <p class="txt-register"><a href="/login">Sign-in</a></p>
+        </form>
+    </section>
+        <% include ../others/footer.ejs %>
+    </body>
+
+
+</html>

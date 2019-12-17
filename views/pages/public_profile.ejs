@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <% include ../others/head.ejs %>
+</head>
+<%
+  var point1 = new geopoint(req.session.profile.latitude, req.session.profile.longitude) 
+		point2 =  new geopoint(profile.latitude, profile.longitude)
+		distance = point1.distanceTo(point2, true)
+		if (!distance)
+      distance = '0';
+  %>
+<body id="profile-user">
+    <% include ../others/navbar.ejs %>
+
+    <div class="col mt-4 mb-4">
+    <div id="modify-div" class="card modify col-sm-10 col-md-8 " >
+      <% if (online == 1){%>
+        <p class="text-success">Online</p>
+        
+        <%}else {%>
+          <p class="text-secondary">Offline</p>
+          <% if (profile.active == null) { profile.active = 'Never'%><%-profile.active%> <%} else {%>
+          <time class="timeago" datetime="<%-profile.active.getFullYear()%>-<%-profile.active.getUTCMonth()+1%>-<%-profile.active.getDate()%>T<%-profile.active.getHours()%>:<%-profile.active.getMinutes()%>:<%-profile.active.getSeconds()%>"></time>
+<%}%>
+      <%} if (like == 2) { %>
+        <p class="text-primary text-center mt-2 mb-0"><i><b> This peer likes you ! </b></i></p>
+      <% } %>
+      <% if (like == 3) { %>
+            <p class="text-success text-center mt-2 mb-0"><i><b> It's a match ! </b>
+            <a href="<%- '/chat/' + profile.id %>" class="nolink">Chat with <%-profile.name %></a></i></p>
+        <% } %>
+      <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="<%-profile.img1%>" class="d-block " alt="...">
+          </div>
+          
+          <% if(profile.img2 !== '/img/empty.jpg'){%>
+            <div class="carousel-item">
+                <img src="<%-profile.img2%>" class="d-block " alt="...">
+              </div>
+              <%}%>
+          <% if(profile.img3 !== '/img/empty.jpg'){%>
+            <div class="carousel-item">
+                <img src="<%-profile.img3%>" class="d-block " alt="...">
+              </div>
+              <%}%>
+          <% if(profile.img4 !== '/img/empty.jpg'){%>
+          <div class="carousel-item">
+              <img src="<%-profile.img4%>" class="d-block " alt="...">
+            </div>
+            <%}%>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title"><%-profile.name%></h5>
+        <p class="card-text"><%-profile.bio%></p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><%-profile.age%>yo</li>
+        <li class="list-group-item"><%-profile.gender%></li>
+        <li class="list-group-item"><% if (profile.checklocation === 1){ %> <%-profile.location%><%}else {%><%-profile.fakelocation%><%}%></li>
+        <li class="list-group-item"><%- parseInt(distance, 10)%> km</li>
+        <%if (tag && tag[0]){%><li class="list-group-item"><%i = 0
+          while (tag[i]){ %>
+            <div>#<%-tag[i].tag%></div>
+
+          <% i++ }} %></li>
+          <li class="list-group-item"><%-profile.score%> pts of popularity</li>
+      </ul>
+     
+      <div class="card-body">
+        <form action="/user_profile/<%- profile.id %>" method="post">
+          <div class="row">
+            <div class="col  text-center">
+              <input type="submit" class="imglike border rounded-circle <% if (like == -1 || like == 1 || like == 3) { %> greydisabled <% } %>" id="like" name="like" value=""
+                src="/img/like.png">
+            </div>
+            <div class="col  text-center">
+              <input type="submit" class="imgdislike border rounded-circle <% if (like == -1 || like == 0 || like == 2) { %> greydisabled <% } %>" id="dislike" name="dislike" value=""
+                src="/img/dislike.png">
+            </div>
+          </div>
+        </form>
+      </div>
+
+     <div class="card-body text-right mt-3">
+       <form action="/user_profile/<%- profile.id %>" method="post">
+        <input type="submit" name="report" value="Report" class="btn <%if (report == 1){%> btn-danger <%}else{%>btn-info<%}%> btn-sm"/>
+        <input type="submit" name="block" value="Block" class="btn <%if (block == 1){%> btn-danger <%}else{%>btn-info<%}%> btn-sm"/>
+      </form>
+       
+     </div>
+
+  </div>
+
+</body>
+  <% include ../others/footer.ejs %>
+ 
+  <script src="/socket.io/socket.io.js"></script>
+
+  <script>
+
+var socket = io('http://localhost:8888');
+<% if (Array.isArray(notif) == false) { %>
+var id = <%- notif %> ;
+<% } else { %>
+var id = <%- notif[0].user_id %> ;
+<% }  %>
+console.log("trying to connect")
+socket.on('connect', function (data) {
+    socket.emit('setUserId', id)
+    console.log("connecttt")
+});
+
+$("time.timeago").timeago();
+
+    <% if (like == 1 || like == 3) { %>
+		document.getElementById("like").disabled = "disabled";
+	<% } else if (like == -1) { %>
+		document.getElementById("like").disabled = "disabled";
+		document.getElementById("dislike").disabled = "disabled";
+	<% } else { %>
+		document.getElementById("dislike").disabled = "disabled";
+	<% } %>
+  </script>
+
+
+</html>

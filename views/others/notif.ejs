@@ -1,0 +1,32 @@
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+var socket = io('http://localhost:8888');
+
+function resetcolor(){
+    $('.dot').addClass('btn-secondary').removeClass('btn-primary');
+
+    socket.emit('seen', id)
+}
+
+<% if (Array.isArray(notif) == false) { %>
+var id = <%- notif %> ;
+<% } else { %>
+var id = <%- notif[0].user_id %> ;
+<% }  %>
+    console.log("trying to connect")
+socket.on('connect', function (data) {
+    socket.emit('setUserId', id)
+    console.log("connecttt")
+});
+socket.on('notification', function (data) {
+    console.log("WOWOWOW")
+    $('.dot').addClass('btn-primary').removeClass('btn-secondary');
+
+   
+    $('#notifbox').prepend('<a href="/user_profile/' + data.his_id + '" style="text-decoration: none;"><div class=notifunseen><p>' + data.not + '</p><time class="timeago"> ' + data.date + '</time></div></a><hr />');
+    $('.historylikes').prepend('<a class="text-center" href="/user_profile/' + data.his_id + '" style="text-decoration: none;"><div class=notifunseen><p>' + data.not + '</p><time class="timeago"> ' + data.date + '</time></div></a><hr/>');
+});
+
+$("time.timeago").timeago();
+</script>

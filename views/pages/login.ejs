@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html  lang="en">
+
+<head>
+    <% include ../others/head.ejs %>
+    <link rel="stylesheet" href="css/signin.css">
+</head>
+
+<body id="form-conn">
+
+    <div id="bg-login"></div>
+
+    <section class="container-fluid text-center">
+    <form class="form-signin" action="login" method="POST">
+        <div class="title">
+                <a href="/">Login</a>
+        </div>
+        <input type="username" class='form-control' name=username placeholder="Username" required autofocus>
+        <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required>
+       
+        <button class="btn btn-lg btn-light btn-block" type="submit">Sign in</button>
+        <p class="txt-register float-left"><a href="/forget_password" >Forget Password</a></p>
+
+        <p class="txt-register"><a href="/register" >Create Account</a></p>
+        <p class="txt-register"><a href="https://api.intra.42.fr/oauth/authorize?client_id=6447f1319d883740e394f0305924ccd1a418d9cee86e1f33cd89196e672812c5&redirect_uri=http%3A%2F%2Flocalhost%3A8888%2Foauth42&response_type=code" >Connect with 42</a></p>
+
+    </form>
+</section>
+
+
+    <% include ../others/footer.ejs %>
+</body>
+</html>

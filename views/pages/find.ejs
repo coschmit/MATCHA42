@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <% include ../others/head.ejs %>
+</head>
+
+<%
+var i = 0; while (peer[i]) {
+
+i++;
+
+}
+
+%>
+
+<body id="find">
+    <% include ../others/navbar.ejs %>
+
+
+  <div class="container-fluid">
+
+    <div class="filter-menu">
+
+      <button class="btn btn-outline-primary" id="btn-filter" type="button">
+        Button
+      </button>
+
+      <div id="filters" >
+        <form action="/find" class="form-filter" method="post">
+          <div class="filtre_option">
+            <label class=""> Age : </label><label class=""><input class="form-control w-25 d-inline-block" type="number"
+                name="agemin"> to <input type="number" class="form-control w-25 d-inline-block" name="agemax"></label>
+          </div>
+          <div class="filtre_option">
+            <label class="minititle"> Score : </label><label class=""><input class="form-control w-25 d-inline-block"
+                type="number" name="scoremin"> to <input type="number" class="form-control w-25 d-inline-block" name="scoremax"></label>
+          </div>
+          <div class="filtre_option">
+            <label class="minititle"> Localisation : </label><label class="">Maximum <input class="form-control w-25 d-inline-block"
+                type="number" name="distance"> km</label>
+          </div>
+          <div class="filtre_option">
+            <label class="minititle"> Tags : </label>
+            <textarea style="width: 15vw;" class="" type="text" placeholder="(separate by ';')"
+              name="tags"></textarea>
+          </div>
+          <div class="filtre_option mb-2">
+            <label class="minititle">Sort by :</label>
+            <select class="" name="tri" style="width: 7vw;height: 1.8vw;">
+              <option>None</option>
+              <option>Age</option>
+              <option>Score</option>
+              <option>Location</option>
+              <option>Tags</option>
+            </select>
+          </div><br />
+          <input type="submit" value="Set Filters" class="btn set-filter-btn btn-outline-secondary" />
+        </form>
+      </div>
+    </div>
+
+    <div class='col cardimg'>
+      <div class="row">
+
+        <% var i = 0; while (peer[i]) { %>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="card mb-4" onclick="location.href='<%-'/user_profile/' + peer[i].id%>'" style="cursor:pointer;"
+            style="width: 18rem;">
+            <img src="<%- peer[i].img1 %>" class="card-img-top" alt="...">
+            <div class="card-body">
+              <p class="card-text float-right "><%-peer[i].age%>yo</p>
+
+              <h5 class="card-title"><%- peer[i].name%></h5>
+              <p class="card-text h-25 overflow-auto "><%- peer[i].bio%></p>
+
+              <p class="card-text"><%-profile.location%></p>
+              <p class="card-text"><%-peer[i].distance%> </p>
+
+            </div>
+          </div>
+        </div>
+
+
+        <% i++; } %>
+      </div>
+    </div>
+  </div>
+
+  <% include ../others/footer.ejs %>
+</body>
+
+</html>

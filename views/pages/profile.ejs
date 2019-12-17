@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ../others/head.ejs %>
+    <link rel="stylesheet" href="css/signin.css">
+</head>
+
+<body id="profile">
+
+    <% include ../others/navbar.ejs %>
+    <br />
+    <div id="container m-auto">
+        <% if (typeof error !== 'undefined' && error && error !== 'none') { 
+            %> <div class="alert alert-danger w-75 ml-auto mr-auto alert-dismissible fade show" role="alert">
+  <%-error%>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+        <% } %>
+        <% if (typeof success !== 'undefined' && success && success !== 'none') { 
+            %> <div class="alert alert-success w-75 ml-auto mr-auto alert-dismissible fade show" role="alert">
+  <%-success%>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+        <% } %>
+    </div>
+
+    <div class="vertical-matcha-bg">
+            <h1>MATCHA</h1>
+            <h1>MATCHA</h1>
+            <h1>MATCHA</h1>
+            <h1>MATCHA</h1>
+            <h1>MATCHA</h1>
+    </div>
+    <div class="vertical-trust-bg">
+            <h1>TRUST IN LOVE</h1>
+            <h1>TRUST IN LOVE</h1>
+            <h1>TRUST IN LOVE</h1>
+            <h1>TRUST IN LOVE</h1>
+            <h1>TRUST IN LOVE</h1>
+
+        </div>
+
+    <div class="container-fluid pb-5">
+        <div class="row">
+
+            <div class="mmmm col-xs-12 col-sm-10 col-lg-6">
+                <div id="modify-div" class="card modify" style="width: 90%;">
+                    <img src="<%-profile.img1%>" class="card-img-top img-box-1">
+                    <div class="card-body">
+                        <i id="btn-modify" class="fas fa-eye fa-lg"></i>
+
+                        <h5 class="card-title"><%-profile.name %></h5>
+
+                        <div class="form-group">
+
+                            <span class="edit">
+                                <form action="/profile" method="POST">
+                                    <textarea class="form-control" placeholder="<%-profile.bio%>" name="bio" maxlength="500"
+                                        id="exampleFormControlTextarea1" rows="2" value="<%-profile.bio%>"></textarea>
+                                    <input class="col-12 mt-2 btn btn-outline-secondary" type="submit" name="sub_bio"
+                                        value="Modify">
+                                </form>
+                            </span>
+                            <span class="bio"><%-profile.bio%></span>
+                        </div>
+                    </div>
+
+                    <ul class="list-group list-group-flush">
+
+                        <li class="list-group-item">
+                            <span class="edit">
+                                <form action="/profile" method="POST">
+                                    <input class="form-control" style="width: 70px; display: inline-block;"
+                                        type="number" name="age" value="<%- profile.age%>">
+                                    <input class="btn btn-outline-secondary" type="submit" name="sub_age"
+                                        value="Modify">
+                                </form>
+                            </span>
+                            <span class="bio"><%-profile.age%></span>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="edit">
+                                <form action="/profile" method="POST">
+                                    <select class="custom-select" name="gender">
+                                        <% if (!profile.gender) { %>
+                                        <option> Select Gender </option>
+                                        <% } else { %>
+                                        <option><%- profile.gender %> </option><% } %>
+                                        <option> Man </option>
+                                        <option> Woman </option>
+                                    </select>
+                                    <input class="btn btn-outline-secondary" name="sub_gender" type="submit"
+                                        value="Modify">
+                                </form>
+                            </span>
+                            <div class="bio"><%-profile.gender%></div>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="edit">
+                                <form action="/profile" method="POST">
+                                    <select class="custom-select" name="orientation">
+                                        <% if (!profile.gender) { %>
+                                        <option> Select Gender </option>
+                                        <% } else { %>
+                                        <option><%- profile.orientation %> </option><% } %>
+                                        <option>Heterosexual</option>
+                                        <option>Homosexual</option>
+                                        <option>Bisexual</option>
+                                    </select>
+                                    <input class="btn btn-outline-secondary" name="sub_orientation" type="submit"
+                                        value="Modify">
+                                </form>
+                            </span>
+                            <div class="bio"><%-profile.orientation%></div>
+                        </li>
+
+                        <li class="list-group-item">
+                            <div class="bio">
+                                <% if (profile.checklocation === 0){ %>
+                                <%-profile.fakelocation%>
+                                <%}else {%>
+                                <%-profile.location%>
+                                <%  }%>
+                            </div>
+                            <span class="edit">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="customSwitch1"
+                                        <% if(profile.checklocation === 1){ %> checked <% }%>>
+                                    <label class="custom-control-label text-realloca" for="customSwitch1"></label>
+                                </div>
+                                <p class="m-auto realoc">Your actual location : <%-profile.location%></p>
+                                <form class="fakeloc" action="profile" method="post"><i>Your fake location :</i> <br>
+                                    <div class="send-container2">
+                                        <input class="form-control w-75 mr-1 d-inline-block" type="text"
+                                            name="fakelocation" placeholder="<%-profile.fakelocation %>" maxlenght="100"
+                                            required>
+                                        <input class="btn btn-outline-secondary d-inline-block" type="submit"
+                                            name="fake_loc_btn" value="Modify">
+                                    </div>
+                                </form>
+                        </li>
+
+                        <%if (profile.tag && profile.tag[0]){%><li class="list-group-item bio removetags"><%i = 0
+                                    while (profile.tag[i]){ %>
+                            <div class="">#<%-profile.tag[i].tag%></div>
+
+                            <% i++ }} %></li>
+
+                        </span>
+
+                    </ul>
+                    <span class="edit">
+                        <div class="card-body">
+                            <h2>Account</h2>
+                            <div class="account">
+                                <form action="/profile" method="post">
+                                    <select class="custom-select w-25 mb-2" name="edit" id='modifyuserlist'
+                                        onchange="placeholder()">
+                                        <option value='1'> Username </option>
+                                        <option value='2'> Name </option>
+                                        <option value='3'> Email </option>
+                                        <option value='4'> Password </option>
+                                    </select>
+                                    <div class="send-container2 mb-2">
+                                        <input class="form-control w-75 mr-1 d-inline-block" type="text"
+                                            name="changement" id='modifyuser' required>
+                                        <input class="btn btn-outline-secondary" type="submit" name="general"
+                                            value="Modify" id="change">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </span>
+                    <span class="edit">
+                        <div class="card-body ">
+                            <h2>Tags</h2>
+                            <div class="tags">
+                                <div class="addtags">
+                                    <form action="/profile" method="post">
+                                        <input class="form-control d-inline-block w-75" type="text" name="newtag" id='newtag' maxlength="40">
+                                        <input class="btn btn-outline-secondary" type="submit" name="general" value="Ajouter"
+                                            id="tagbutton">
+                                    </form>
+                                </div>
+                                <div class="removetags">
+                                    <% 
+                                        if (profile && profile.tag) { 
+                                            i = 0
+                                        while (profile.tag[i]){
+                                             %>
+                                    <div class="tag">
+                                        <form action="/profile" method="post">
+                                            <strong>#<%- profile.tag[i].tag %></strong>
+                                            <button type="submit" class="btn btn-outline-danger btn-del" name="deltag"
+                                                value="<%= profile.tag[i++].id %>"><i
+                                                    class="far fa-trash-alt"></i></button>
+                                        </form>
+                                    </div>
+                                    <% }} %>
+                                </div>
+                            </div>
+
+                        </div>
+                    </span>
+                </div>
+            </div>
+            <div class="mmmm col-xs-12 col-sm-10 col-lg-6">
+                <div class="row">
+
+                    <div class="col-sm-12 col-md-6 mb-3">
+                        <div class="card" style="width: 90%;">
+                            <img src="<%-profile.img1%>" class="card-img-top">
+                            <form action="/new_img" method="post" enctype="multipart/form-data">
+                                <div class="custom-file">
+
+                                    <input type="file" name="file" class="custom-file-input" id="validatedCustomFile"
+                                        accept=".jpg, .jpeg, .png" required>
+                                    <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+                                    <input type=submit name=img1 class="btn upload-img col-12 mb-3"
+                                        value="Upload Image">
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 mb-3">
+                        <div class="card" style="width: 90%;">
+                            <img src="<%-profile.img2%>" class="card-img-top">
+
+                            <form action="/new_img" method="post" enctype="multipart/form-data">
+                                <div class="custom-file">
+
+                                    <input type="file" name="file" class="custom-file-input" id="validatedCustomFile"
+                                        accept=".jpg, .jpeg, .png" required>
+                                    <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+                                    <input type=submit name=img2 class="btn upload-img col-12 mb-3"
+                                        value="Upload Image">
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-sm-12 col-md-6 mb-3">
+                        <div class="card" style="width: 90%;">
+                            <img src="<%-profile.img3%>" class="card-img-top">
+
+                            <form action="/new_img" method="post" enctype="multipart/form-data">
+                                <div class="custom-file">
+
+                                    <input type="file" name="file" class="custom-file-input" id="validatedCustomFile"
+                                        accept=".jpg, .jpeg, .png" required>
+                                    <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+                                    <input type=submit name=img3 class="btn upload-img col-12 mb-3"
+                                        value="Upload Image">
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 mb-3">
+                        <div class="card" style="width: 90%;">
+                            <img src="<%-profile.img4%>" class="card-img-top">
+
+                            <form action="/new_img" method="post" enctype="multipart/form-data">
+                                <div class="custom-file">
+
+                                    <input type="file" name="file" class="custom-file-input" id="validatedCustomFile"
+                                        accept=".jpg, .jpeg, .png" required>
+                                    <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+                                    <input type=submit name=img4 class="btn upload-img col-12 mb-3"
+                                        value="Upload Image">
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                    <div class="mmmm col-12">
+                        <div class="history">
+                            <h2 class="text-center">History</h2>
+                            <hr>
+                            <div class="historylikes">
+                                <% if (Array.isArray(notif) == false) { %>
+
+                                <p id=nonotifs> Sorry, No Notifications Yet </p>
+
+                                <% } else { var i = 0;
+                                        while (notif[i]) { %>
+                                <a class="text-center" href=<%-'/user_profile/' + notif[i].his_id %>
+                                    style='text-decoration: none;'>
+                                    <% if (notif[i].seen == 1) { %><div class=notif> <% } else { %><div
+                                            class=notifunseen><% } %>
+                                            <p> <%- notif[i].notif %> </p>
+                                            <time class="timeago"
+                                                datetime="<%-notif[i].date.getFullYear()%>-<%-notif[i].date.getUTCMonth()+1%>-<%-notif[i].date.getDate()%>T<%-notif[i].date.getHours()%>:<%-notif[i].date.getMinutes()%>:<%-notif[i].date.getSeconds()%>"></time>
+                                        </div>
+                                </a><% if (notif[i + 1]) { %>
+                                <hr /><% } %>
+                                <% i++; } } %>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="mmmm col-12 likesandviews">
+            <div class="row">
+                <div class="col-xs-12 col-md-6 likesandcheck">
+                    <h2 class="text-center">Who like you ?</h2>
+                    <hr>
+                    <% if (like != 'none') {
+                        i = 0; while (like[i]) { %>
+                        <a href="<%-'/user_profile/' + like[i].id %>" class="">
+                            <li><b><i><%- like[i].username %></b></i> <%- ' : ' + like[i].name + ' | Age : ' + like[i].age + ' | Score : ' + like[i].score %></li>
+                        </a><hr/>
+                        <% i++ } } %>
+                </div>
+                <div class="col-xs-12 col-md-6 likesandcheck">
+                    <h2 class="text-center">Wo have see your account ?</h2>
+                    <hr>
+                    <% if (visit != 'none') {
+                        i = 0; while (visit[i]) { %>
+                        <a href="<%-'/user_profile/' + visit[i].id %>" class="">
+                            <li><b><i><%- visit[i].username %></b></i> <%- ' : ' + visit[i].name + ' | Age : ' + visit[i].age + ' | Score : ' + visit[i].score %></li>
+                        </a><hr/>
+                        <% i++ } } %>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <% include ../others/footer.ejs %>
+
+
+
+    <% include ../others/notif.ejs %>
+
+    <script>
+
+
+
+
+
+
+
+        //        $('#notifbox').prepend('<a href="/user_profile/' + data.his_id + '" style="text-decoration: none;"><div class=notifunseen><p>' + data.not + '</p><time class="timeago" datetime=" ' + date.date.getFullYear() + "-" + date.date.getUTCMonth() +date.date.getDate() + "T" +date.date.getHours() + ":" +date.date.getMinutes()+ ":"+ date.date.getSeconds() +' "></time></div></a><hr style="margin:0px;"/>');
+
+
+
+        function checktext() {
+            check = $("#customSwitch1").is(":checked");
+            if (check) {
+                $(".text-realloca").text("Real Location");
+                $(".fakeloc").hide()
+                $(".realoc").show()
+            } else {
+                $(".text-realloca").text("Fake Location");
+                $(".fakeloc").show()
+                $(".realoc").hide()
+
+            }
+        }
+
+
+
+
+
+        $(document).ready(function () {
+            checktext()
+
+
+        })
+
+        $('#customSwitch1').click(function () {
+
+            checktext()
+
+            $.ajax({
+                type: "POST",
+                url: "/profile",
+                data: {
+                    switch: $("#customSwitch1").is(":checked")
+                }
+            });
+        });
+
+
+
+        $.ajax({
+            url: 'http://api.ipstack.com/88.190.34.14?access_key=7c00d8739f482b64220043c9354f51a0',
+            dataType: 'jsonp',
+            success: function (json) {
+                var httpPost = new XMLHttpRequest();
+                httpPost.open("POST", "/profile");
+                httpPost.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                httpPost.send('table=' + encodeURIComponent(JSON.stringify(json)));
+            }
+        });
+
+        modif = document.getElementById('modifyuser');
+
+        window.onload = placeholder();
+        function placeholder() {
+            var s = document.getElementById("modifyuserlist").value;
+            if (s == '1')
+                var i = '<%-profile.username%>'
+            else if (s == '2')
+                var i = '<%- profile.name %>'
+            else if (s == '3')
+                var i = '<%- profile.email %>'
+            else if (s == '4') {
+                var i = 'New Password'
+                modif.type = "Password";
+            }
+            if (s != 4)
+                modif.type = 'text'
+
+            document.getElementById("modifyuser").placeholder = i;
+        }  
+    </script>
+</body>
+
+</html>

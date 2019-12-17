@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light overflow-hidden">
+        <a class="navbar-brand" href="/profile">MATCHA</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link active nav-profile" data-content="Profile" href="/profile">Profile<span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link nav-profile" style="margin-left: 70px" data-content="Matchs" href="/matchs">Matchs</a>
+            <a class="nav-item nav-link nav-profile" style="margin-left: 150px" data-content="Find" href="/find">Find</a>
+            <a class="nav-item nav-link mr-auto nav-profile" style="margin-left: 210px" data-content="Logout" href="/logout">Logout</a>
+          </div>
+        </div>
+      </nav>
+      <div class="notifbtn btn-group">
+            
+
+<% function checkseen(){
+var s = 0;
+ var j = 0;
+ while (notif[j]){
+    if (notif[j].seen == 0){s = 1}
+    j++;
+    }
+    
+    return (s)
+}
+var v = checkseen()
+    console.log("the letter v equal to: " + v)
+%> <button onclick="resetcolor()" type="button" class="dot btn  <%if (v == 1) {%>btn-primary<%} else {%>btn btn-secondary<% } %> fas fa-bell"
+
+
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            </button>
+            <div id="notifbox" class="dropdown-menu dropdown-menu-right">
+                <% if (Array.isArray(notif) == false) { %>
+    
+                <p id=nonotifs> Sorry, No Notifications Yet </p>
+                
+                <% } else { var i = 0;  
+                    while (notif[i]) { %>
+                <a href=<%-'/user_profile/' + notif[i].his_id %> style='text-decoration: none;'>
+                    <% if (notif[i].seen == 1) { %><div class=""> <% } else { %><div class=""><% } %>
+                            <p> <%- notif[i].notif %> </p>
+                            <time class="timeago" datetime="<%-notif[i].date.getFullYear()%>-<%-notif[i].date.getUTCMonth()+1%>-<%-notif[i].date.getDate()%>T<%-notif[i].date.getHours()%>:<%-notif[i].date.getMinutes()%>:<%-notif[i].date.getSeconds()%>"></time>
+                        </div>
+                </a><% if (notif[i + 1]) { %>
+                <hr style="margin:0px;" /><% } %>
+                <% i++; } } %>
+            </div>
+        </div>

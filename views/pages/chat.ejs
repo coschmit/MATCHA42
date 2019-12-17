@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ../others/head.ejs %>
+</head>
+
+<body id="">
+        <% include ../others/navbar.ejs %>
+
+    <div class="profile-info container mt-3">
+
+        <div onclick="location.href='<%-'/user_profile/'+user2.id%> '" style="cursor: pointer;" class="profile-pic-round">
+            <img src="<%-user2.img1%>" class="">
+        </div>
+        <p class="d-inline"><%-user2.username%></p>
+
+    </div>
+    <div class="container">
+        <div id="zone_chat">
+            <%
+            var i = 0;
+            while (chat[i]) { %>
+            <% if ((chat[i].user_id == req.session.profile.id && chat[i].his_id == user2.id) || (chat[i].user_id == user2.id && chat[i].his_id == req.session.profile.id)) { %>
+
+            <% if (chat[i].user_id == req.session.profile.id) { %><div class="block-message-right">
+                <div class="my_message">
+
+                    <p><strong><%- req.session.profile.username %>
+                            <% } else { %>
+                            <div class="block-message-left">
+                                <div class="profile-pic-round  ">
+                                    <img src="<%-user2.img1%>">
+                                </div>
+                                <div class="other_message">
+                                    <p><strong><%- user2.username %>
+                                            <% } %>
+                                            <%- ' : ' %></strong><%- chat[i].message %></p>
+                                </div>
+                                <% if (chat[i].user_id == req.session.profile.id) { %>
+                                <div class="profile-pic-round">
+                                    <img src="<%-req.session.profile.img1%>" class="">
+                                </div>
+                                <% } %>
+                            </div>
+                            <% } i++; } %>
+
+                </div>
+
+                <form id="send-container" class="send-container" >
+                    <input type="text" autocomplete="off" class="form-control d-inline-block w-75" id="message-input">
+                    <button class ="d-inline-block w-25 btn btn-outline-primary" type="submit" id="send-btn">Send</button>
+                </form>
+            </div>
+
+
+</body>
+
+
+<script src="/socket.io/socket.io.js"></script>
+
+
+<script type="text/javascript">
+
+    function scrolldiv() {
+
+        document.getElementById('zone_chat').scrollTop = 100000;
+    }
+    var socket = io.connect('http://localhost:8888');
+
+    var pseudo = "<%-req.session.profile.username %>";
+    user_id = "<%-req.session.profile.id %>";
+    user_img = "<%-req.session.profile.img1 %>";
+    his_img = "<%-req.params.img1 %>";
+    his_id = "<%-req.params.id %>";
+    if (user_id > his_id)
+        var room = user_id + his_id;
+    else
+        var room = his_id + user_id;
+
+      
+    socket.emit('room', user_id, his_id);
+    document.title = 'Chatting - ' + document.title;
+
+    socket.emit('nouveau_client', pseudo, user_id, his_id);
+
+    socket.on('message', function (data) {
+        var mylogin = "<%- req.session.profile.username %>";
+        if (mylogin != data.pseudo)
+            insereMessage(data.pseudo, data.message);
+        scrolldiv()
+    })
+
+
+    socket.on('nouveau_client', function (pseudo) {
+        $('#zone_chat').append('<div><p class="text-secondary"><em>' + pseudo + ' a rejoint le Chat !</em></p></div>');
+        scrolldiv()
+    })
+
+
+
+    var sendContainer = document.getElementById('send-container')
+    var messageInput = document.getElementById('message-input')
+
+    sendContainer.addEventListener('submit', function (e) {
+        e.preventDefault()
+        var message = messageInput.value
+        message = fokXSS(message)
+        if (messageInput.value.length > 0){
+        socket.emit('message', message, room)
+        insereMyMessage(pseudo, message);
+        scrolldiv()
+        }else {
+            alert("TG FDP")
+        }
+        messageInput.value = ''
+    })
+
+    function fokXSS(text) {
+         var map = {
+           '&': '&amp;',
+           '<': '&lt;',
+           '>': '&gt;',
+           '"': '&quot;',
+           "'": '&#039;'
+        };
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+
+    function insereMessage(pseudo, message) {
+        $('#zone_chat').append('<div class="block-message-left"><div class="profile-pic-round"><img src="<%-user2.img1%>"></div><div class="other_message"><p><strong>' + pseudo + ' : </strong> ' + message + '</p></div</div>');
+    }
+
+    function insereMyMessage(pseudo, message) {
+        $('#zone_chat').append('<div class="block-message-right"><div class="my_message" ><p ><strong>' + pseudo + ' : </strong> ' + message + '</p></div><div class="profile-pic-round"><img src="<%-req.session.profile.img1%>" class=""></div></div>');
+    }
+
+
+
+</script>
+
+
+
+<% include ../others/footer.ejs %>
+
+</html>
