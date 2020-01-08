@@ -29,7 +29,7 @@ i++;
       <div id="filters" >
         <form action="/find" class="form-filter" method="post">
           <div class="filtre_option">
-            <label class=""> Age : </label><label class=""><input class="form-control w-25 d-inline-block" type="number"
+            <label class=""> Age :</label><label class=""><input class="form-control w-25 d-inline-block" type="number"
                 name="agemin"> to <input type="number" class="form-control w-25 d-inline-block" name="agemax"></label>
           </div>
           <div class="filtre_option">
@@ -55,7 +55,7 @@ i++;
               <option>Tags</option>
             </select>
           </div><br />
-          <input type="submit" value="Set Filters" class="btn set-filter-btn btn-outline-secondary" />
+          <input type="submit" value="Set Filters" class="btn set-filter-btn btn-outline-light" />
         </form>
       </div>
     </div>
@@ -74,7 +74,7 @@ i++;
               <h5 class="card-title"><%- peer[i].name%></h5>
               <p class="card-text h-25 overflow-auto "><%- peer[i].bio%></p>
 
-              <p class="card-text"><%-profile.location%></p>
+              <p class="card-text"><% if (peer[i].location == undefined) {%>somewhere<% } else { %><%-peer[i].location%><% } %></p>
               <p class="card-text"><%-peer[i].distance%> </p>
 
             </div>

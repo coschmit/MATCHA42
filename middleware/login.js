@@ -2,7 +2,7 @@ if (!req.body.username && !req.body.password)
   res.render('pages/login', {req: req})
 else if (req.body.username && req.body.password)
 {
-    sql = 'SELECT * FROM `users` WHERE username = ?'
+    sql = 'SELECT * FROM `users` WHERE username = ? AND api = 1'
     variables = [req.body.username]
     conn.query(sql, variables, function (err, result) { if (err) throw err
         if (result.length > 0)
@@ -25,24 +25,19 @@ else if (req.body.username && req.body.password)
 
                         })
                 }
-                else {
-                    console.log("A confirmation email has been")
-                    res.render('pages/login')
-                }
+                else 
+                    res.render('pages/login',{error: "A confirmation email has been"})
+                
             }
-                else {
-                    res.render('pages/login')
-                    console.log('invalid pass')
-                    
-                }
-            
+                else 
+                    res.render('pages/login',{error: "Invalid password"})
+                
             })
         
         }
-        else {
-            res.render('pages/login')
-            console.log('login inconnu')
-        }
+        else 
+            res.render('pages/login',{error: "Unknow login"})
+        
     }) 
 
     

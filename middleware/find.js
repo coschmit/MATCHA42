@@ -3,7 +3,7 @@ function userprofilevalidate(result) {
     while (result[i]) {
         if (result[i].confirm !== 1)
             result[i].valid = 0;
-        else if (!result[i].gender || !result[i].bio || result[i].img1 == 'img/empty.jpg' || result[i].age <= 0 || !result[i].orientation)
+        else if (!result[i].gender || !result[i].bio || result[i].img1 == '/img/empty.jpg' || result[i].age <= 0 || !result[i].orientation)
             result[i].valid = 0;
         else
             result[i].valid = 1;
@@ -21,7 +21,7 @@ function profilevalidate(req, res, profile) {
         return false
     }
 
-    if (!profile.gender || !profile.bio || !profile.orientation || profile.age <= 0 || profile.img1 == 'img/empty.jpg') {
+    if (!profile.gender || !profile.bio || !profile.orientation || profile.age <= 0 || profile.img1 == '/img/empty.jpg') {
         res.render('pages/profile', { notif: notifs, error: 'Please complete your profile before choosing your peer', profile: profile, like: 'none', visit: 'none' })
         return false
     }
@@ -245,13 +245,9 @@ else {
                         return (val.distance <= req.body.distance);
                     })
                 };
-                console.log(result)
-
             }
             if (req.body.tags) {
-                console.log("Check poulette")
                 var tags = eschtml(req.body.tags)
-
 
                 tabtags = tags.split(";")
                 result = result.filter(function (val, i, result) {

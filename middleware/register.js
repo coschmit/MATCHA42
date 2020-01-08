@@ -1,8 +1,9 @@
 
 
 
-if (req.body.username && req.body.name && req.body.email && req.body.password){
+if (req.body.username && req.body.firstname && req.body.name && req.body.email && req.body.password){
     var username = eschtml(req.body.username)
+    var firstname = eschtml(req.body.firstname)
     var name = eschtml(req.body.name)
     var email = eschtml(req.body.email)
     var password = eschtml(req.body.password)
@@ -58,8 +59,8 @@ if (req.body.username && req.body.name && req.body.email && req.body.password){
 
                                     smtpTransport.close()})
                                     bcrypt.hash(password,10,function(err, hash){if (err) throw err
-                                    sql = 'INSERT INTO `users` (`username`, `name`, `email`, `password`,`confirmkey`) VALUES (?, ?, ?, ?, ?)'
-                                    variables = [username, name, email, hash, key]
+                                    sql = 'INSERT INTO `users` (`username`, `firstname`, `name`, `email`, `password`,`confirmkey`, `api`) VALUES (?, ?, ?, ?, ?, ?, 1)'
+                                    variables = [username, firstname, name, email, hash, key]
                                     var promise1 = new Promise(function(resolve, reject) { conn.query(sql, variables, function (err, res) { if (err) throw err }) }) 
                                         
                                         promise1.then(conn.query('SELECT * FROM users WHERE username = ?', [username], function (err, res) { if (err) throw err

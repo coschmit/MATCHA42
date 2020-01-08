@@ -3,6 +3,7 @@ conn.query('USE `matcha`', function (err) { if (err) throw err })
 var users = `CREATE TABLE IF NOT EXISTS users ( \
     id INT AUTO_INCREMENT PRIMARY KEY, \
     username VARCHAR(255), \
+    fistname VARCHAR(255), \
     name VARCHAR(255), \
     email VARCHAR(255), \
     password VARCHAR(255), \
@@ -22,7 +23,8 @@ var users = `CREATE TABLE IF NOT EXISTS users ( \
     img1 VARCHAR(255) DEFAULT '/img/empty.jpg', \
     img2 VARCHAR(255) DEFAULT '/img/empty.jpg', \
     img3 VARCHAR(255) DEFAULT '/img/empty.jpg', \
-    img4 VARCHAR(255) DEFAULT '/img/empty.jpg')`
+    img4 VARCHAR(255) DEFAULT '/img/empty.jpg', \
+    api INT )`
 conn.query(users, function (err, res) { if (err) throw err })
 
 

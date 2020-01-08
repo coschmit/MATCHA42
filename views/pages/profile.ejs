@@ -161,9 +161,10 @@
                                     <select class="custom-select w-25 mb-2" name="edit" id='modifyuserlist'
                                         onchange="placeholder()">
                                         <option value='1'> Username </option>
-                                        <option value='2'> Name </option>
-                                        <option value='3'> Email </option>
-                                        <option value='4'> Password </option>
+                                        <option value='2'> Fistname </option>
+                                        <option value='3'> Name </option>
+                                        <option value='4'> Email </option>
+                                        <option value='5'> Password </option>
                                     </select>
                                     <div class="send-container2 mb-2">
                                         <input class="form-control w-75 mr-1 d-inline-block" type="text"
@@ -409,6 +410,7 @@
                 httpPost.open("POST", "/profile");
                 httpPost.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                 httpPost.send('table=' + encodeURIComponent(JSON.stringify(json)));
+                console.log("MIAMMIAM")
             }
         });
 
@@ -420,10 +422,12 @@
             if (s == '1')
                 var i = '<%-profile.username%>'
             else if (s == '2')
+                var i = '<%- profile.firstname %>'
+                else if (s == '3')
                 var i = '<%- profile.name %>'
-            else if (s == '3')
+            else if (s == '4')
                 var i = '<%- profile.email %>'
-            else if (s == '4') {
+            else if (s == '5') {
                 var i = 'New Password'
                 modif.type = "Password";
             }

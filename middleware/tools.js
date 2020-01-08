@@ -46,7 +46,23 @@ module.exports = {
                 return callback(visit);
             })
             })
-        }
+        }, 
+        checkmatch: function(con, user_id, his_id, callback)
+{
+    var a = 0
+    var b = 0
+     con.query('SELECT * FROM likes WHERE user_id = ? AND his_id = ?', [user_id, his_id], function (err, rows) { if (err) throw err 
+        if (rows.length == 1)
+            a = 1;       
+        con.query('SELECT * FROM likes WHERE user_id = ? AND his_id = ?', [his_id, user_id], function (err, rows) { if (err) throw err 
+        if (rows.length == 1)
+            b = 1;
+        if (a == 1 && b == 1)
+            return callback(1);
+        else
+            return callback(0);
+     }) })
+}
 
     }
 

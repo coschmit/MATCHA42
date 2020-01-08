@@ -559,7 +559,15 @@ a.link {
     flex-direction: column;
     border-radius: .25rem!important;
     border-color: #007bff!important;
+    background-color: #007bff;
+    color: #fff;
     transition: max-height 0.5s ease-in-out;
+}
+
+#filters .form-control, #filters textarea, #filters select{
+    color: #fff;
+    background-color: #0068d6;
+    margin: 0 5px;
 }
 
 .form-filter {

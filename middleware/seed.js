@@ -45,11 +45,17 @@ function getRandomInt(max) {
                 img3 = '/img/girl_profile/picadilly_circus.jpg',
                 img4 = '/img/empty.jpg'
         }
+        else if (i % 4 == 2){
+            var img1 = '/img/girl_profile/kylie-jenner01.jpg',
+                img2 = '/img/girl_profile/kylie-jenner02.jpg',
+                img3 = '/img/girl_profile/kylie-jenner03.png',
+                img4 = '/img/girl_profile/kylie-jenner04.jpg'
+        }
         else  {
-            var img1 = '/img/empty.jpg',
-                img2 = '/img/empty.jpg',
-                img3 = '/img/empty.jpg',
-                img4 = '/img/empty.jpg'
+            var img1 = '/img/girl_profile/megan-fox01.jpg',
+                img2 = '/img/girl_profile/megan-fox02.jpg',
+                img3 = '/img/girl_profile/megan-fox03.jpg',
+                img4 = '/img/girl_profile/megan-fox04.jpg'
         }
         var array = [img1,img2,img3,img4];
     return array;
@@ -92,7 +98,7 @@ function getRandomInt(max) {
       password = '$2a$10$fXJ03NwABaEi4HLQhWiGpOhdbpcTEo93DvY0UBAJlbyhpdvPkXnzu' // Fakeuser42
       confirm = 1
       
-  while (i < 500) {
+  while (i < 30) {
       var username = 'Random' + i
           email = 'random' + i + '@gmail.com'
           bio = 'Me signale pas stpppp je suis un fake et je l\'assume'
@@ -133,7 +139,6 @@ function getRandomInt(max) {
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
       conn.query(sql, [username, name, password, email, key, confirm, gender, orientation, bio, age,
        score, fakelocation, checklocation, img1, img2, img3, img4, longitude, latitude], function (err, result) { if (err) throw err })
-  console.log("$$$$$$$OKKKKK$$$$$$$$")
       sql = 'INSERT INTO `tags` (tag, user_id) VALUES (?,?)'
       conn.query(sql, [maketag(), i], function (err, result) { if (err) throw err })
       sql = 'INSERT INTO `tags` (tag, user_id) VALUES (?,?)'

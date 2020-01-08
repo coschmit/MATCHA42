@@ -78,8 +78,10 @@ else if (req.body.edit && req.body.general === 'Modify') {
                 })
         }
         else if (req.body.edit === '2')
+                updateuser('firstname', change)
+        else if (req.body.edit === '3')
                 updateuser('name', change)
-        else if (req.body.edit === '3') {
+        else if (req.body.edit === '4') {
                 if (validator.isEmail(change)) {
                         sql = 'SELECT * FROM `users` WHERE email = ?'
                         conn.query(sql, [change], function (err, result) {
@@ -91,7 +93,7 @@ else if (req.body.edit && req.body.general === 'Modify') {
                         })
                 }
         }
-        else if (req.body.edit === '4') {
+        else if (req.body.edit === '5') {
                 console.log("On passe au mdp")
                 regLow = /[a-z]/
                 regUp = /[A-Z]/

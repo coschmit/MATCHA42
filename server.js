@@ -138,20 +138,23 @@ app.get('/', (req, res) => {
             res.redirect('/')
         }
         else {
-            tool.getnotifs(conn, req.session.profile.id, function (notifs) {
-
-            conn.query("SELECT * from `users` where id = ?", [req.params.id], function (err, user2) {
-                if (err) throw err
-                conn.query('SELECT * FROM `chat` WHERE user_id = ? OR his_id = ?', [req.params.id, req.params.id], function (err, chat) {
-                    if (err) throw err
-                    var i = 1111;
-                    res.render('pages/chat', { i: i, req: req, user2: user2[0], chat: chat, notif: notifs })
-                })})
+            conn.query("SELECT * from `users` where id = ?", [req.params.id], function( err, user2 ) { if (err) throw err
+                conn.query('SELECT * FROM `chat` WHERE user_id = ? OR his_id = ?', [req.params.id, req.params.id], function (err, chat) { if (err) throw err 
+                tool.checkmatch(conn, req.session.profile.id, req.params.id, function(match){
+                    if (match == 0)
+                        res.redirect('/')
+                    else {
+                        tool.getnotifs(conn, req.session.profile.id, function(notifs){
+                    res.render('pages/chat', { req: req, user2: user2[0], chat: chat, notif: notifs})
+                })
+            }
             })
-        }
+        })
     })
-
-
+}
+    })
+                
+                
 
 app.post('/', (req, res) => {
     if (req.body.message === undefined || req.body.message === '') {
@@ -172,11 +175,6 @@ app.post('/', (req, res) => {
         else
             eval(fs.readFileSync(__dirname + "/middleware/login.js") + '')
     })
-    .post('/zizi', function (req, res) {
-        if (session.profile == undefined)
-            res.render('pages/zizi')
-    })
-
 
 app.all('/profile', urlencodedParser, function (req, res) {
     tool.getnotifs(conn, req.session.profile.id, function (notifs) {
@@ -193,10 +191,6 @@ app.all('/profile', urlencodedParser, function (req, res) {
         eval(fs.readFileSync(__dirname + "/middleware/public_profile.js") + '')
         })
     })
-    .post('/pipi', urlencodedParser, function (req, res) { console.log("PIPI") })
-
-
-
 
     .all('*', function (req, res) {
         res.redirect('/');
