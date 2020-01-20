@@ -111,6 +111,7 @@ function getRandomInt(max) {
           quelgenre = getRandomInt(2)
           quelorientation = getRandomInt(3)
           name = makename();
+          firstname = makename();
           checklocation = 0;
   
           
@@ -134,7 +135,7 @@ function getRandomInt(max) {
       var img3 = chooseimg(gender, i)[2]
       var img4 = chooseimg(gender, i)[3]
 
-      sql = 'INSERT INTO `users` (`username`, `name`, `password`, `email`, `confirmkey`, `confirm`, `gender`,\
+      sql = 'INSERT INTO `users` (`username`, `firstname` , `name`, `password`, `email`, `confirmkey`, `confirm`, `gender`,\
        `orientation`, `bio`, `age`, `score`, `fakelocation`, `checklocation`, `img1`, `img2`, `img3`, `img4`, `longitude`, `latitude`)\
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
       conn.query(sql, [username, name, password, email, key, confirm, gender, orientation, bio, age,

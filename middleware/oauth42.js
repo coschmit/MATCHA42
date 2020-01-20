@@ -3,14 +3,10 @@ function adduser (body) {
         if (err) res.redirect('/error/SQL error ' + err);
         if (result.length == 0)
         {
-            console.log("ok on test")
             sql = 'INSERT INTO `users` (`username`, `name`, `img1`, `api`) VALUES (?, ?, ?, 2)'
             conn.query(sql, [body.login, body.first_name, body.image_url], (err) => { if (err) console.log("MARCHE POOOOO"); })
-            console.log("BAHALORS   ")
         }
         req.session.profile = result[0]
-console.log("ok donc c'est");
-console.log(result[0]);
     })
 }
 
@@ -25,37 +21,34 @@ request.post({
         redirect_uri: 'http://localhost:8888/oauth42'
     }
 }, function(error, response, body){
-    console.log("TEST2")
-
     if (error)
-        console.log("error1");
+    res.redirect('/');        
     else if (response.body.error || response.statusCode != 200) 
-    console.log("error2");
+    res.redirect('/');
     else
     {
-        console.log("ouiiii")
         token = response.body.access_token;
         request.get({
             url: 'https://api.intra.42.fr/v2/me?access_token=' + token,
             json: true
         }, (error, response, body) => {
             if (error)
-                res.redirect('error/ oauth42 request error ' + response.statusCode + " : " + error);
+                res.redirect('/');
             else if (response.body.error || response.statusCode != 200)
-                res.redirect('error/ oauth42 request error ' + response.statusCode + " : " + response.body.error);
+                res.redirect('/');
             else
             {
-                console.log("ouiiiiiii")
                 adduser(body)
                 conn.query('SELECT * FROM users WHERE username = ? AND api = 2', [body.login], (err, result) => {
                     req.session.profile = result[0]
-
+                    console.log(result[0].id)
                 // req.session.profile = new Array;
                 // req.session.profile.username = body.login
                 // req.session.profile.name = body.first_name
                 // req.session.profile.img1 = body.image_url
+                // req.session.profile.id = '666';
                 // console.log(req.session.profile.img1)
-                // req.session.profile.api = '2';
+                //  req.session.profile.api = '2';
                 res.redirect('/profile')
             })
             }
