@@ -1,13 +1,23 @@
 function adduser (body) {
-    conn.query('SELECT * FROM users WHERE username = ? AND api = 2', [body.login], (err, result) => {
+    conn.query('SELECT * FROM users WHERE username = ? AND api = 2', [body.login], function (err, result) { if (err) throw err 
         if (err) res.redirect('/error/SQL error ' + err);
-        if (result.length == 0)
+        console.log("*first state*")
+        if (result.length === 0)
         {
+        console.log("*second state*")
+
             sql = 'INSERT INTO `users` (`username`, `name`, `img1`, `api`) VALUES (?, ?, ?, 2)'
-            conn.query(sql, [body.login, body.first_name, body.image_url], (err) => { if (err) console.log("MARCHE POOOOO"); })
+            conn.query(sql, [body.login, body.first_name, body.image_url], (err) => { if (err) res.redirect('/'); })
+            // conn.query('SELECT * FROM users WHERE username = ? AND api = 2', [body.login], function (err, result) { if (err) throw err 
+                
+            //     req.session.profile = result[0]
+            //     console.log("****")
+            //     console.log(req.session.profile)
+            //     console.log("****")
+            // })
         }
-        // req.session.profile = result[0]
     })
+
 }
 
 request.post({
@@ -38,19 +48,29 @@ request.post({
                 res.redirect('/');
             else
             {
+                console.log("****   AHBONNN    ****")
                 adduser(body)
-                conn.query('SELECT * FROM users WHERE username = ? AND api = 2', [body.login], (err, result) => {
-                    req.session.profile = result[0]
-                    console.log(result[0])
-                    console.log(result[0].id)
-                // req.session.profile = new Array;
-                // req.session.profile.username = body.login
-                // req.session.profile.name = body.first_name
-                // req.session.profile.img1 = body.image_url
-                // req.session.profile.id = '666';
-                // console.log(req.session.profile.img1)
-                //  req.session.profile.api = '2';
-                res.redirect('/profile')
+
+                setTimeout(function() {
+                    console.log("%%POWW%%")
+                    conn.query('SELECT * FROM users WHERE username = ? AND api = 2', [body.login], function (err, result) { if (err) throw err 
+                        req.session.profile = result[0]
+                        
+                    // req.session.profile = new Array;
+                    // req.session.profile.username = body.login
+                    // req.session.profile.name = body.first_name
+                    // req.session.profile.img1 = body.image_url
+                    // req.session.profile.id = '666';
+                    // console.log(req.session.profile.img1)
+                    //  req.session.profile.api = '2';
+    
+                    console.log("****")
+                    console.log(req.session.profile)
+                    console.log("****")
+                    res.redirect('/profile')
+                    
+                    }, 3000);
+
             })
             }
         })
