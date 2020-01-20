@@ -1,9 +1,9 @@
 function userprofilevalidate(result) {
     var i = 0;
     while (result[i]) {
-        if (result[i].confirm !== 1)
+        if ((result[i].api == 1) && (result[i].confirm !== 1))
             result[i].valid = 0;
-        else if (!result[i].gender || !result[i].bio || result[i].img1 == '/img/empty.jpg' || result[i].age <= 0 || !result[i].orientation)
+        else if ((result[i].api == 1) && (!result[i].gender || !result[i].bio || result[i].img1 == '/img/empty.jpg' || result[i].age <= 0 || !result[i].orientation))
             result[i].valid = 0;
         else
             result[i].valid = 1;
@@ -180,6 +180,7 @@ function sortdistance(result) {
 
 }
 
+
 if (req.session.profile == undefined)
     res.redirect('/')
 
@@ -222,7 +223,10 @@ else {
             else if (req.body.tri == "Score"){
                 result = result.sort(ascendingscore)
             }
+            
             else if (req.body.tri == "Tags"){
+
+
             tritags(req.session.profile, result)
             }
             if (req.body.scoremin) {

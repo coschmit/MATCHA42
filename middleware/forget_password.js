@@ -1,4 +1,3 @@
-console.log("WELCOME")
 email = eschtml(req.body.email)
 sql = 'SELECT * FROM users WHERE email = ?'
     conn.query(sql, [email],
@@ -27,14 +26,12 @@ sql = 'SELECT * FROM users WHERE email = ?'
         }
         smtpTransport.sendMail(mail, function(error, response){
             if (error) { 
-                console.log("BAHERROR")
-                res.render('pages/login', {req: req}) 
+                res.render('pages/login', {req: req, error: "Mail not sending"}) 
             }
             else {
                 bcrypt.hash(newpass, 10, function(err, hash) { 
                     if (err) throw err
                     sql = 'UPDATE users SET password = ? WHERE email = ?'
-                    console.log("nickel")
                     conn.query(sql, [hash, email],
                     function (error, result) 
                     { 

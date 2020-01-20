@@ -22,7 +22,6 @@ if (req.body.username && req.body.firstname && req.body.name && req.body.email &
                             if (error) throw error
                             if (result.length == 0)
                             {
-                                console.log("--------------------\nFIRST STEP\n------------------------")
                                 let smtpTransport = mailer.createTransport({
                                     service: 'gmail',
                                     auth: {
@@ -41,11 +40,7 @@ if (req.body.username && req.body.firstname && req.body.name && req.body.email &
                                     <a href=http://localhost:8888/confirm?username='+ username + '&key=' + key + '>Confirm your account</a>\
                                     </div></body></html>'
                                 }
-                                console.log("--------------------\nSECOND STEP\n------------------------")
-
-
                                 smtpTransport.sendMail(mail,function(error, response){
-                                    console.log("--------------------\nTHIRTH STEP\n------------------------")
                                     if (error){
                                         var msg = "Confirm email has been not sent!!!"
                                         res.render('pages/register',{error: msg})

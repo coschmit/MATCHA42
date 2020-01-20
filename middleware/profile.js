@@ -11,6 +11,25 @@ function updateuser(column, change) {
 }
 
 
+if (req.session.profile.api == 2) {
+        conn.query('SELECT * FROM `tags` WHERE user_id = ?', [req.session.profile.id], function (err, result) {
+                if (err) throw err
+                req.session.profile.tag = result;
+        })
+}
+
+
+function fokXSS(text) {
+        var map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+        };
+        return text.replace(/[&<>"']/g, function (m) { return map[m]; });
+}
+
 function checklocation(set) {
         sql = 'UPDATE users SET checklocation = ? WHERE id = ?'
         conn.query(sql, [set, req.session.profile.id], function (err, result) {
@@ -68,8 +87,7 @@ else if (req.body.edit && req.body.general === 'Modify') {
                         if (result.length === 0)
                                 updateuser('username', change)
                         else
-                                console.log('Sorry, this username already exists')
-                        msg = "Sorry, this username already exists"
+                                msg = "Sorry, this username already exists"
                         tool.getlikes(conn, req.session.profile.id, function (like) {
                                 tool.getvisits(conn, req.session.profile.id, function (visit) {
                                         res.render('pages/profile', { like: like, visit: visit, profile: req.session.profile, geopoint: geopoint, notif: notifs, error: msg })
@@ -88,21 +106,48 @@ else if (req.body.edit && req.body.general === 'Modify') {
                                 if (err) throw err
                                 if (result.length === 0)
                                         updateuser('email', change)
-                                else
-                                        console.log('Sorry, this email already exists')
+                                else {
+                                        msg = "Sorry, this email already exists"
+                                        tool.getlikes(conn, req.session.profile.id, function (like) {
+                                                tool.getvisits(conn, req.session.profile.id, function (visit) {
+                                                        res.render('pages/profile', { like: like, visit: visit, profile: req.session.profile, geopoint: geopoint, notif: notifs, error: msg })
+                                                })
+                                        })
+                                }
+
                         })
                 }
         }
         else if (req.body.edit === '5') {
-                console.log("On passe au mdp")
                 regLow = /[a-z]/
                 regUp = /[A-Z]/
                 if (change.length < 5)
-                        console.log("Your password is too short")
+                {
+                        msg = "Your password is too short"
+                                        tool.getlikes(conn, req.session.profile.id, function (like) {
+                                                tool.getvisits(conn, req.session.profile.id, function (visit) {
+                                                        res.render('pages/profile', { like: like, visit: visit, profile: req.session.profile, geopoint: geopoint, notif: notifs, error: msg })
+                                                })
+                                        })
+                }
                 else if (change.search(regLow) === -1)
-                        console.log('Password must contain a lowercase')
+                {
+                        msg = "Password must contain a lowercase"
+                                        tool.getlikes(conn, req.session.profile.id, function (like) {
+                                                tool.getvisits(conn, req.session.profile.id, function (visit) {
+                                                        res.render('pages/profile', { like: like, visit: visit, profile: req.session.profile, geopoint: geopoint, notif: notifs, error: msg })
+                                                })
+                                        })
+                }
                 else if (change.search(regUp) === -1)
-                        console.log('Password must contain an uppercase')
+                {
+                        msg = "Password must contain an uppercase"
+                                        tool.getlikes(conn, req.session.profile.id, function (like) {
+                                                tool.getvisits(conn, req.session.profile.id, function (visit) {
+                                                        res.render('pages/profile', { like: like, visit: visit, profile: req.session.profile, geopoint: geopoint, notif: notifs, error: msg })
+                                                })
+                                        })
+                }
                 else {
                         bcrypt.hash(change, 10, function (erroo, hash) {
                                 if (erroo) throw erroo
@@ -136,7 +181,8 @@ else if (req.body.fakelocation && req.body.fake_loc_btn === 'Modify') {
 }
 
 else if (req.body.bio && req.body.sub_bio === 'Modify') {
-        updateuser('bio', req.body.bio)
+        bio = fokXSS(req.body.bio)
+        updateuser('bio', bio)
 }
 
 else if (req.body.newtag) {

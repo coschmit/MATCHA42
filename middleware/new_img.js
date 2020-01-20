@@ -5,7 +5,6 @@ function updateuser(column, change)
     var sql = 'UPDATE users SET ' + column + ' = ? WHERE id = ?'
     conn.query(sql, [change, req.session.profile.id], function (err) { if (err) throw err })
     req.session.profile[column] = change
-    console.log( 'success', 'Your ' + column + ' was successfully changed')
     tool.getlikes(conn, req.session.profile.id, function (like) {
         tool.getvisits(conn, req.session.profile.id, function (visit) {
             var success = 'Your image was successfully changed';
@@ -22,13 +21,14 @@ function newImg(){
         }
         if (files.file.type !== 'image/png' && files.file.type !== 'image/jpeg' && files.file.type !== 'image/jpg')
         {
-            console.log('Only jpeg and png image types aloud');
-            
+            tool.getlikes(conn, req.session.profile.id, function (like) {
+                tool.getvisits(conn, req.session.profile.id, function (visit) {
+                    var error = 'Only jpeg and png image types aloud';
+            res.render('pages/profile',{error: error,profile: req.session.profile, notif: notifs, visit: visit, like: like})})})
             return ;
         }
         if (files.file.size > 5000000)
         {
-            console.log('Your image is too big');
             tool.getlikes(conn, req.session.profile.id, function (like) {
                 tool.getvisits(conn, req.session.profile.id, function (visit) {
                     var error = "Your image is too big !";
@@ -47,7 +47,6 @@ function newImg(){
         var dir =  __dirname + '/public/img/users/' + req.session.profile.id;
         if (!fs.existsSync(dir)){
             fs.mkdirSync(dir);
-            console.log("CREATION")
         }
         var oldpath = files.file.path;
             newpath = dir + '/' + name;

@@ -14,13 +14,13 @@ var id = <%- notif %> ;
 <% } else { %>
 var id = <%- notif[0].user_id %> ;
 <% }  %>
-    console.log("trying to connect")
+
 socket.on('connect', function (data) {
     socket.emit('setUserId', id)
-    console.log("connecttt")
+
 });
 socket.on('notification', function (data) {
-    console.log("WOWOWOW")
+
     $('.dot').addClass('btn-primary').removeClass('btn-secondary');
 
    

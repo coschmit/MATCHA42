@@ -21,7 +21,6 @@ else if (req.body.username && req.body.password)
                             i = 0;
                             req.session.profile.tag = result
                             res.redirect('/profile')
-                           // console.log(req.session.profile)
 
                         })
                 }
@@ -43,8 +42,7 @@ else if (req.body.username && req.body.password)
     
 }
 else {
-    res.render('pages/login')
-            console.log('FIlling every field is required')
+    res.render('pages/login',{error: "FIlling every field is required"})
 }
 
 

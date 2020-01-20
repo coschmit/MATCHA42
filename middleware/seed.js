@@ -134,11 +134,10 @@ function getRandomInt(max) {
       var img2 = chooseimg(gender, i)[1]
       var img3 = chooseimg(gender, i)[2]
       var img4 = chooseimg(gender, i)[3]
-
       sql = 'INSERT INTO `users` (`username`, `firstname` , `name`, `password`, `email`, `confirmkey`, `confirm`, `gender`,\
        `orientation`, `bio`, `age`, `score`, `fakelocation`, `checklocation`, `img1`, `img2`, `img3`, `img4`, `longitude`, `latitude`)\
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
-      conn.query(sql, [username, name, password, email, key, confirm, gender, orientation, bio, age,
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+      conn.query(sql, [username, firstname, name, password, email, key, confirm, gender, orientation, bio, age,
        score, fakelocation, checklocation, img1, img2, img3, img4, longitude, latitude], function (err, result) { if (err) throw err })
       sql = 'INSERT INTO `tags` (tag, user_id) VALUES (?,?)'
       conn.query(sql, [maketag(), i], function (err, result) { if (err) throw err })
@@ -158,7 +157,7 @@ function getRandomInt(max) {
       conn.query(sql, [maketag(), i], function (err, result) { if (err) throw err })
       sql = 'INSERT INTO `tags` (tag, user_id) VALUES (?,?)'
       conn.query(sql, [maketag(), i], function (err, result) { if (err) throw err })
-  console.log("ETLAAAAA")
+
       sql = 'INSERT INTO `visits` (user_id, his_id) VALUES (?,?)'
       conn.query(sql, [getRandomInt(600), getRandomInt(600)], function (err, result) { if (err) throw err })
   
@@ -166,5 +165,4 @@ function getRandomInt(max) {
       conn.query(sql, [getRandomInt(600), getRandomInt(600)], function (err, result) { if (err) throw err })
       i++
   } } });
-  console.log("BINGOOOO&&&&&&&&")
   res.render('pages/index', {req: req})

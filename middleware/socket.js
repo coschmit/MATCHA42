@@ -16,7 +16,6 @@ socket.on('room', function (user_id, his_id) {
 });
 
 socket.on('nouveau_client', function(pseudo, user_id, his_id) {
-    console.log("Nouveau client")
     socket.pseudo = pseudo;
     socket.user_id = user_id;
     socket.his_id = his_id;
@@ -24,7 +23,6 @@ socket.on('nouveau_client', function(pseudo, user_id, his_id) {
 });
 
 socket.on('seen', function (user_id) {
-    console.log("NOTIFCHCHHH")
     conn.query('UPDATE notifs SET seen=1 WHERE user_id=?', [user_id])
 })
 
@@ -53,7 +51,6 @@ socket.on('message', function (message, room) {
 });
 
 socket.on('disconnect', function(){
-    console.log("LOLLOLOLOL")
     conn.query('UPDATE users SET active=CURRENT_TIMESTAMP WHERE id=?', [socket.myid], function (err) { if (err) throw err })
     delete user[socket.myid];
 });

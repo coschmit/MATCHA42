@@ -38,7 +38,6 @@ function	notif(msg)
 		console.log(user[req.params.id])
 		if (user[req.params.id])
 		{
-			console.log("J'ai send")
 	    	conn.query('SELECT date FROM notifs WHERE user_id=? AND his_id=? AND notif=?', [req.params.id, req.session.profile.id, msg], function (err, date) { if (err) throw err 
 			user[req.params.id].emit('notification', {his_id: req.session.profile.id, not: msg, date: date[0].date.getFullYear()+'-'+date[0].date.getUTCMonth()+'-'+date[0].date.getDate()+'T'+date[0].date.getHours()}); })
 			
@@ -70,7 +69,6 @@ function deletefrom(table) {
 }
 
 function checkonline(){
-	console.log(user[1])
 	if (req.session.profile.id == req.params.id)
 		online = 1;
 	else if (user[req.params.id])
@@ -115,7 +113,6 @@ if (req.body.like == '') {
 		if (like == -1 || like == 1 || like == 3)
 			return;
 		else {
-			console.log('+1')
 			score('more')
 			insertinto('likes')
 		}
@@ -168,7 +165,6 @@ conn.query('SELECT * FROM users WHERE id = ?', [req.params.id], function (err, r
 					check('report', req.session.profile.id, req.params.id, function(report){
 
 				var online = checkonline();
-				console.log(user)
 				res.render('pages/public_profile', {notif: notifs,report: report, block: block, geopoint: geopoint, req: req, like: like, profile: result[0], tag: resultag, online: online })
 			})})})
 		})
