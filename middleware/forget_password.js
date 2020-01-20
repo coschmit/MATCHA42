@@ -10,8 +10,8 @@ sql = 'SELECT * FROM users WHERE email = ?'
         let smtpTransport = mailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'colinschmitt472@gmail.com',
-                pass: 'mypassword'
+                user: 'matchacolin@gmail.com',
+                pass: 'Matcha1234'
             }
          });
          newpass = rand.generate(10)

@@ -26,15 +26,15 @@ if (req.body.username && req.body.firstname && req.body.name && req.body.email &
                                 let smtpTransport = mailer.createTransport({
                                     service: 'gmail',
                                     auth: {
-                                        user: 'colinschmitt472@gmail.com',
-                                        pass: 'mypassword'
+                                        user: 'matchacolin@gmail.com',
+                                        pass: 'Matcha1234'
                                     }
                                  }); 
                                    
                                 key = rand.generateDigits(5)
                                 mail = 
                                 {
-                                    from: "colinschmitt47@gmail.com", to: email, subject: "Confirmation de votre compte",
+                                    from: "matchacolin@gmail.com", to: email, subject: "Confirmation de votre compte",
                                     text: "Hello world",
                                     html: '<html><body><div align=center> \
                                     TIENS SALE TCHOIN KEPOURTOA <BR />CLICK ON THE FOLLOWING LINK TO VALIDATE YOUR ACCOUNT: <BR />\

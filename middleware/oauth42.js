@@ -6,7 +6,7 @@ function adduser (body) {
             sql = 'INSERT INTO `users` (`username`, `name`, `img1`, `api`) VALUES (?, ?, ?, 2)'
             conn.query(sql, [body.login, body.first_name, body.image_url], (err) => { if (err) console.log("MARCHE POOOOO"); })
         }
-        req.session.profile = result[0]
+        // req.session.profile = result[0]
     })
 }
 
@@ -41,6 +41,7 @@ request.post({
                 adduser(body)
                 conn.query('SELECT * FROM users WHERE username = ? AND api = 2', [body.login], (err, result) => {
                     req.session.profile = result[0]
+                    console.log(result[0])
                     console.log(result[0].id)
                 // req.session.profile = new Array;
                 // req.session.profile.username = body.login
