@@ -29,7 +29,7 @@ npm start
 ![Profile](https://github.com/coschmit/MATCHA42/blob/master/README_IMG/your_profile_page.png)
 
 ### Search
-![Search](https://github.com/coschmit/MATCHA42/blob/master/README_IMG/search_page.png)
+<img src="https://github.com/coschmit/MATCHA42/blob/master/README_IMG/search_page.png" width="300"/>
 
 ### Chat
-![Chat](https://github.com/coschmit/MATCHA42/blob/master/README_IMG/chat_mobile.png)
+<img src="https://github.com/coschmit/MATCHA42/blob/master/README_IMG/chat_mobile.png" width="300"/>
