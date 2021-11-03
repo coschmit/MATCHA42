@@ -36,7 +36,7 @@
     "scrollreveal": "^4.0.5",
     "socket.io": "^2.3.0",
     "timeago.js": "^4.0.1",
-    "validator": "^11.1.0",
+    "validator": "^13.7.0",
     "xoauth2": "^1.2.0"
   },
   "devDependencies": {
